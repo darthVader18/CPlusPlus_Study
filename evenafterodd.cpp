@@ -51,40 +51,6 @@ void insertAtTail(node* &head, int val) {
 
 }
 
-void deleteAtHead(node* head) {
-    node* temp = head;
-    while(temp->next != head) {
-        temp = temp->next;
-    }
-
-    node* todelete = head;
-    temp->next = head->next;
-    head = head->next;
-
-    delete todelete;
-}
-
-void deletion(node* head, int pos) {
-
-    if(pos == 1) {
-        deleteAtHead(head);
-        return;
-    }
-
-    node* temp = head;
-    int count = 1;
-
-    while(count != pos-1) {
-        temp = temp->next;
-        count++;
-    }
-
-    node* todelete = temp->next;
-    temp->next = temp->next->next;
-
-    delete todelete;
-
-}
 
 void display(node* head) {
     node* temp = head;
@@ -95,21 +61,39 @@ void display(node* head) {
     while(temp != head);
     cout<<endl;
 
+}
+
+void evenAfterOdd(node* &head) {
+    node* odd = head;
+    node* even = head->next;
+    node* evenStart = even;
+
+    while(odd->next != NULL && even->next != NULL) {
+        odd->next = even->next;
+        odd = odd->next;
+
+        even->next = odd->next;
+        even = even->next;
     }
+
+    odd->next = evenStart;
+    if(odd->next != NULL) {
+        even->next = NULL;
+    }
+}
 
 
 int main() {
 
     node* head = NULL;
-    insertAtTail(head, 1);
-    insertAtTail(head, 2);
-    insertAtTail(head, 3);
-    insertAtTail(head, 4);
+    int arr[] = {1,2,3,4,5,6};
+     for(int i=0; i<6; i++) {
+        insertAtTail(head, arr[i]);
+    }
     display(head);
-    insertAtHead(head, 5);
-    display(head);
-    deletion(head, 5);
+    evenAfterOdd(head);
     display(head);
 
     return 0;
 }
+
